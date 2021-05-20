@@ -2,6 +2,7 @@ package com.example.cart12312;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,6 +63,24 @@ public class RecylerView extends AppCompatActivity {
             }
         });
 
+        //스와이프를 이용해 삭제하기
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                arrayList.remove(viewHolder.getLayoutPosition());
+                adapter.notifyItemRemoved(viewHolder.getLayoutPosition());
+
+
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
 
 
 
@@ -80,9 +99,11 @@ public class RecylerView extends AppCompatActivity {
                 for (int i = 0 ; i < arrayList.size(); i++) {
                     total +=  arrayList.get(i).getPrice();
                     pc.setText(String.valueOf(total) + "원");
+
                 }
 
                 adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+
             }
 
             @Override

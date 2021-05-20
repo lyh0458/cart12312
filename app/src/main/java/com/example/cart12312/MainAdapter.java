@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -55,7 +56,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
     }
 
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+
+   public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         ImageView profile;
         TextView name;
