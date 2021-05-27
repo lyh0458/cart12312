@@ -1,17 +1,22 @@
 package com.example.cart12312;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +28,6 @@ import java.util.ArrayList;
 
 public class RecylerView extends AppCompatActivity {
 
-
     //전역변수 설정
     private ArrayList<MainData> arrayList;
     private RecyclerView recyclerView;
@@ -31,16 +35,15 @@ public class RecylerView extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseDatabase database; //파이어 베이스 연결
     private DatabaseReference databaseReference;
+    private Context context;
 
     Button pay1;
     TextView pc;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recylerview);
-
 
         pay1 = findViewById(R.id.pay1);
         pc = findViewById(R.id.pc);
@@ -54,15 +57,6 @@ public class RecylerView extends AppCompatActivity {
 
         databaseReference = database.getReference("MainData"); //데이터 베이스 테이블 연결
 
-
-        pay1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
-
         //스와이프를 이용해 삭제하기
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
@@ -74,15 +68,10 @@ public class RecylerView extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 arrayList.remove(viewHolder.getLayoutPosition());
                 adapter.notifyItemRemoved(viewHolder.getLayoutPosition());
-
-
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
-
-
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -99,11 +88,8 @@ public class RecylerView extends AppCompatActivity {
                 for (int i = 0 ; i < arrayList.size(); i++) {
                     total +=  arrayList.get(i).getPrice();
                     pc.setText(String.valueOf(total) + "원");
-
                 }
-
                 adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
-
             }
 
             @Override
@@ -112,8 +98,17 @@ public class RecylerView extends AppCompatActivity {
             }
         });
 
+
+        pay1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(RecylerView.this, PayActivity.class);
+                intent.putExtra("total", pc.getText());
+                startActivity(intent);
+            }
+        });
         adapter = new MainAdapter(arrayList, this);
         recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
     }
-
 }

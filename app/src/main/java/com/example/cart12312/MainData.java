@@ -7,6 +7,7 @@ public class MainData {
   private int price;
 
 
+
   //겟터셋터를 이용해서 만듬듬
 
  public MainData(){}{}
