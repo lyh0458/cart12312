@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PayActivity extends AppCompatActivity {
 
@@ -40,6 +41,7 @@ public class PayActivity extends AppCompatActivity {
     //동작 버튼 클릭
     public void mOk(View v) {
         finish();
+        Toast.makeText(getApplicationContext(),"결제가 완료 되었습니다.",Toast.LENGTH_LONG).show();
     }
 
     //취소 버튼 클릭

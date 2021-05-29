@@ -102,8 +102,10 @@ public class RecylerView extends AppCompatActivity {
         pay1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //값을 받기 위한 선언
                 Intent intent;
                 intent = new Intent(RecylerView.this, PayActivity.class);
+                //activity -> activity 로 값을 전달할때
                 intent.putExtra("total", pc.getText());
                 startActivity(intent);
             }
