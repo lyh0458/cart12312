@@ -47,6 +47,7 @@ public class PayActivity extends AppCompatActivity {
     //취소 버튼 클릭
     public void mCancle(View v) {
         finish();
+        Toast.makeText(getApplicationContext(),"결제가 취소 되었습니다.",Toast.LENGTH_LONG).show();
     }
 
     @Override
