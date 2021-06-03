@@ -18,6 +18,8 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicMarkableReference;
 
 public class RecylerView extends AppCompatActivity {
 
@@ -36,6 +40,8 @@ public class RecylerView extends AppCompatActivity {
     private FirebaseDatabase database; //파이어 베이스 연결
     private DatabaseReference databaseReference;
     private Context context;
+    private List<String> uidList = new ArrayList<>(); //게시물 key
+    private FirebaseAuth mFirebaseAuth; //파이어베이스 인증
 
     Button pay1;
     TextView pc;
@@ -52,12 +58,19 @@ public class RecylerView extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         arrayList = new ArrayList<>(); //MainData 객체를 담아 어레이 리스트 (어탭터 쪽으로)
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
 
         databaseReference = database.getReference("MainData"); //데이터 베이스 테이블 연결
 
-        //스와이프를 이용해 삭제하기
+
+
+
+
+
+
+                //스와이프를 이용해 삭제하기
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -75,23 +88,21 @@ public class RecylerView extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
-       // 데이터베이스 삭제 테스트
-        // databaseReference.child(MainData).setValue(null);
+
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //파이어베이스 데이터베이스의 데이터를 받아오는 곳
                 arrayList.clear(); // 기존 배열리스트가 존재하지않게 초기화
+                uidList.clear();
                 int total = 0;
+                mFirebaseAuth.addIdTokenListener(recyclerView,m).add
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {  //반복문으로 데이터 List를 추출해냄
                     MainData maindata = snapshot.getValue(MainData.class);  //만들어뒀던 data 객체에 데이터를 담는다.
                     arrayList.add(maindata); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
-                    //DatabaseReference asd = database.getReference('MainData/cart-6cc4c-default-rtdb'.remove()); 오류
-//.removeValue(); 오류
-
-//.setValue(null); 오류
+                    uidList.add(uidKey);
 
                }
 
@@ -103,6 +114,19 @@ public class RecylerView extends AppCompatActivity {
                 adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
 
             }
+
+            //파이어베이스 데이타 삭제 text
+            private void onDeleteMaindata(int position){
+                FirebaseDatabase.getReference().child("Maindata").child(uidList.get(position)).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(context,"삭제 성공", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+
+
 
 
             @Override
