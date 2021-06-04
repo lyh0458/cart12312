@@ -5,15 +5,15 @@ public class MainData {
   private String  profile; //String 을 쓴 이유는 파이어 베이스에서 URL 문자 열을 갖고오기 떄문
   private String  name;
   private int price;
-  private  String uid;
+  //private  String uid;
 
 
 
   //겟터셋터를 이용해서 만듬듬
 
- public MainData(String uid){
+ /*public MainData(String uid){
      this.uid = uid;
- }{}
+ }{}*/
 
     public String getProfile() {
         return profile;

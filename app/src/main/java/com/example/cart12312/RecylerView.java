@@ -1,6 +1,7 @@
 package com.example.cart12312;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,19 +60,14 @@ public class RecylerView extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         arrayList = new ArrayList<>(); //MainData 객체를 담아 어레이 리스트 (어탭터 쪽으로)
-        mFirebaseAuth = FirebaseAuth.getInstance();
+         mFirebaseAuth = FirebaseAuth.getInstance();
 
         database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
 
         databaseReference = database.getReference("MainData"); //데이터 베이스 테이블 연결
 
 
-
-
-
-
-
-                //스와이프를 이용해 삭제하기
+        //스와이프를 이용해 삭제하기
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -80,13 +77,41 @@ public class RecylerView extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                arrayList.remove(viewHolder.getLayoutPosition());
+                //arrayList.remove(viewHolder.getLayoutPosition());
                 adapter.notifyItemRemoved(viewHolder.getLayoutPosition());
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
@@ -95,27 +120,30 @@ public class RecylerView extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //파이어베이스 데이터베이스의 데이터를 받아오는 곳
                 arrayList.clear(); // 기존 배열리스트가 존재하지않게 초기화
-                uidList.clear();
+                 uidList.clear();
                 int total = 0;
-                mFirebaseAuth.addIdTokenListener(recyclerView,m).add
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {  //반복문으로 데이터 List를 추출해냄
-                    MainData maindata = snapshot.getValue(MainData.class);  //만들어뒀던 data 객체에 데이터를 담는다.
-                    arrayList.add(maindata); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
-                    uidList.add(uidKey);
 
-               }
+                    MainData maindata = snapshot.getValue(MainData.class);  //만들어뒀던 data 객체에 데이터를 담는다.
+                    Log.e(snapshot.getKey(),snapshot.getChildrenCount()+"");
+                    arrayList.add(maindata); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
+
+
+                }
 
                 //가격 total 값
-                for (int i = 0 ; i < arrayList.size(); i++) {
-                    total +=  arrayList.get(i).getPrice();
+                for (int i = 0; i < arrayList.size(); i++) {
+                    total += arrayList.get(i).getPrice();
                     pc.setText(String.valueOf(total) + "원");
                 }
                 adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
 
             }
 
-            //파이어베이스 데이타 삭제 text
+
+
+            /*파이어베이스 데이타 삭제 text
             private void onDeleteMaindata(int position){
                 FirebaseDatabase.getReference().child("Maindata").child(uidList.get(position)).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -123,10 +151,7 @@ public class RecylerView extends AppCompatActivity {
                         Toast.makeText(context,"삭제 성공", Toast.LENGTH_SHORT).show();
                     }
                 });
-            }
-
-
-
+            }*/
 
 
             @Override
@@ -136,20 +161,18 @@ public class RecylerView extends AppCompatActivity {
         });
 
         //데이터삭제 text
-      //  databaseReference.removeEventListener(new ValueEventListener() {
-          //  @Override
-          //  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        //  databaseReference.removeEventListener(new ValueEventListener() {
+        //  @Override
+        //  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-           // }
+        // }
 
-           // @Override
-          //  public void onCancelled(@NonNull DatabaseError error) {
+        // @Override
+        //  public void onCancelled(@NonNull DatabaseError error) {
 
         //    }
-   //     });
-
-
+        //     });
 
 
         pay1.setOnClickListener(new View.OnClickListener() {
