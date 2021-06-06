@@ -7,13 +7,14 @@ public class MainData {
   private int price;
   //private  String uid;
 
+    public MainData () {
+    }
 
-
-  //겟터셋터를 이용해서 만듬듬
-
- /*public MainData(String uid){
-     this.uid = uid;
- }{}*/
+    public MainData(String profile, String name, int price) {
+        this.profile = profile;
+        this.name = name;
+        this.price = price;
+    }
 
     public String getProfile() {
         return profile;

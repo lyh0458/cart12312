@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -35,11 +36,19 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:fontFamily="@font/horoll"
             android:textColor="#000000"
             android:text="000000원"
             android:textSize="20dp" />
 
         <Button
+            android:background="@drawable/button_style"
+            android:textColor="#FBFAFF"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:fontFamily="@font/horoll"
             android:id="@+id/pay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

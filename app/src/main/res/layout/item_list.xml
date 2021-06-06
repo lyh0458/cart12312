@@ -23,12 +23,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:fontFamily="@font/horoll"
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="이름" />
 
             <TextView
+                android:fontFamily="@font/horoll"
                 android:id="@+id/price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

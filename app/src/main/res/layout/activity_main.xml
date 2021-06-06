@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/mart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FF6666"
     android:orientation="horizontal">
 
 
@@ -17,13 +17,14 @@
         <Button
             android:id="@+id/bt1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawablePadding="10dp"
-            android:background="#00ff0000"
-            android:textColor="#040404"
-            android:text="장보고"
+            android:backgroundTint="#FF6666"
+            android:drawableTop="@drawable/cart"
+            android:fontFamily="@font/horoll"
+            android:text="장보Go"
+            android:textColor="#ffff"
             android:textSize="50dp">
 
         </Button>

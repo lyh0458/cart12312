@@ -48,6 +48,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
     }
 
+
     @Override
     public int getItemCount() {
         //삼항 연산자 arryList가 참이면 실행 아니면 실행을 안한다다
