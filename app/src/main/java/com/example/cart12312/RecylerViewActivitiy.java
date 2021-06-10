@@ -15,9 +15,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
-public class RecylerView extends AppCompatActivity {
+public class RecylerViewActivitiy extends AppCompatActivity {
 
     //전역변수 설정
     private ArrayList<MainData> arrayList;
@@ -152,6 +154,7 @@ public class RecylerView extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -190,7 +193,49 @@ public class RecylerView extends AppCompatActivity {
         });
 
 
+        //결제창 누를시 리사이클러뷰 화면 바로 위에 다이얼로그 창 띄워서 결제하기
         pay1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder py = new AlertDialog.Builder(RecylerViewActivitiy.this);
+                //0원이 되면 결제가 안되게 하기
+                if (pc.getText().toString().equals("0원")) {
+                    Toast.makeText(getApplicationContext(), "장바구니에 추가된 품목이 없습니다", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                py.setCancelable(false);// 영역외 클릭시 창이 사라지지 않게 하기
+                py.setIcon(R.drawable.cart);
+                py.setTitle("결제창");
+                py.setMessage(pc.getText());
+
+
+                py.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "결제가 완료 되었습니다.", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+                });
+
+                py.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "결제가 취소 되었습니다.", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+                });
+
+                py.show();
+
+
+            }
+
+        });
+
+
+
+
+        /*pay1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //값을 받기 위한 선언
@@ -205,7 +250,7 @@ public class RecylerView extends AppCompatActivity {
                 startActivity(intent);
 
             }
-        });
+        });*/
         //리사이클러뷰에 어댑터 연결
     }
 }

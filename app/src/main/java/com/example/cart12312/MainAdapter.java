@@ -6,11 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,7 +20,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
     private ArrayList<MainData> arrayList;
     private Context context; //액티비티 마다 콘텍스트가 있는데 어탭터에서 액티비티 액션을 가져올때 콘텍스트를 쓸대 필요함
 
-    public MainAdapter(ArrayList<MainData> arrayList, RecylerView recylerView) {
+    public MainAdapter(ArrayList<MainData> arrayList, RecylerViewActivitiy recylerView) {
         this.arrayList = arrayList;
     }
 

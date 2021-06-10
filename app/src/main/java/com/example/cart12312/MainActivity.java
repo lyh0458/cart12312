@@ -20,12 +20,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //인텐트 선언 ->현재 액티비티, 넘어갈 액티비티
-              Intent intent = new Intent(MainActivity.this, RecylerView.class);
+              Intent intent = new Intent(MainActivity.this, RecylerViewActivitiy.class);
               //인텐트 실행
                 startActivity(intent);
 
             }
         });
+
 
 
 
