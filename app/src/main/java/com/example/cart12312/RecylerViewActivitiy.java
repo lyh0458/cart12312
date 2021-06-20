@@ -210,12 +210,31 @@ public class RecylerViewActivitiy extends AppCompatActivity {
 
 
                 py.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
                     @Override
+
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "결제가 완료 되었습니다.", Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
+                        databaseReference.removeValue() //databaseReference의 key값 삭제
+                                .addOnSuccessListener(new OnSuccessListener<Void>() { //성공시
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        pc.setText("0원");
+                                        arrayList.clear();
+                                        adapter.notifyDataSetChanged();
+                                        Toast.makeText(getApplicationContext(), "결제가 완료 되었습니다.", Toast.LENGTH_LONG).show();
+                                        dialog.dismiss();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() { // DB에서 Fail날경우는 거의 없음
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
                     }
                 });
+
 
                 py.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
@@ -233,24 +252,5 @@ public class RecylerViewActivitiy extends AppCompatActivity {
         });
 
 
-
-
-        /*pay1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //값을 받기 위한 선언
-                if (pc.getText().toString().equals("0원")) {
-                    Toast.makeText(getApplicationContext(), "장바구니에 추가된 품목이 없습니다", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent intent;
-                intent = new Intent(RecylerView.this, PayActivity.class);
-                //activity -> activity 로 값을 전달할때
-                intent.putExtra("total", pc.getText());
-                startActivity(intent);
-
-            }
-        });*/
-        //리사이클러뷰에 어댑터 연결
     }
 }
