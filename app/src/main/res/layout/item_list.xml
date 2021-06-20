@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +24,8 @@
             android:orientation="vertical">
 
             <TextView
+                android:textSize="20dp"
+                android:textColor="@color/black"
                 android:fontFamily="@font/horoll"
                 android:id="@+id/name"
                 android:layout_width="match_parent"
@@ -30,6 +33,8 @@
                 android:text="이름" />
 
             <TextView
+                android:textSize="20dp"
+                android:textColor="@color/black"
                 android:fontFamily="@font/horoll"
                 android:id="@+id/price"
                 android:layout_width="match_parent"
